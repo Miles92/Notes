@@ -90,15 +90,15 @@ try:
   plt.show()
 
   # create a bot using the API key
-  bot = telegram.Bot(token="5939111095:AAHu13UA-aR-EqaPoFxjLBV6GOt-3Xq9_qI")
+  bot = telegram.Bot(token="123456789:ABCDEFWEFHWEFWEf")
 
   # open the image file in binary mode
   with open(r"C:\Users\stefan.mueller\Downloads\Results\plot.png", "rb") as f:
     # send the image to the test results chat
-    bot.send_photo(chat_id="-1001847835641", photo=f, caption=f"Total profit for the last {days_back} days: {total_profit} USD 💰")
+    bot.send_photo(chat_id="-123456789", photo=f, caption=f"Total profit for the last {days_back} days: {total_profit} USD 💰")
   
     # send the image to the real results channel
-    #bot.send_photo(chat_id="-1001777020624", photo=f, caption=f"Total profit for the last {days_back} days: {total_profit} USD 💰")
+    #bot.send_photo(chat_id="-112233445566", photo=f, caption=f"Total profit for the last {days_back} days: {total_profit} USD 💰")
 
   # shut down the MetaTrader 5 terminal
   mt5.shutdown()
