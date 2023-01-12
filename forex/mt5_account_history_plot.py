@@ -80,8 +80,10 @@ try:
 
   # calculate the total profit of all trades
   total_profit = round(sum_profit(deals, 1) + sum_profit(deals, 0), 2)
-
-  ax.table(cellText=deal_text, colLabels=["Deal type", "Symbol", "Profit (USD)", "Close time"], loc="center", cellLoc="left")
+  
+  # use the round function on the profit of each deal in the table cells 
+  ax.table(cellText=[[round(x,2) if type(x)==float else x for x in row] for row in deal_text], colLabels=["Deal type", "Symbol", "Profit (USD)", "Close time"], loc="center", cellLoc="left")
+#  ax.table(cellText=deal_text, colLabels=["Deal type", "Symbol", "Profit (USD)", "Close time"], loc="center", cellLoc="left")
   ax.set_title(f"Profit from the last {days_back} days", fontsize=20)
 
   # add the total profit text to the plot using the text() function
@@ -89,26 +91,24 @@ try:
   ax.text(0.65, 0.05, "Total profit: " + str(total_profit) + " USD", fontsize=15, fontweight="bold")
 
   # save the plotted output to an image file
-  plt.savefig(r"C:\Users\python_miles\Downloads\Results\plot.png", dpi=300)
+  plt.savefig(r"C:\Users\stefan.mueller\Downloads\Results\plot.png", dpi=300)
 
-  #plt.show()
+  plt.show()
 
   # create a bot using the API key
-  bot = telegram.Bot(token="123456789:ABCD")
+  bot = telegram.Bot(token="132456789:abcdeferonerg")
+  
+  message_text = "Total profit for the last {days_back} days: <b>{total_profit} USD</b> 💰 (Table may be incomplete)".format(days_back=days_back, total_profit=total_profit)
+  
+  asyncio.run(bot.send_photo(-123456789, photo=open(r"C:\Users\stefan.mueller\Downloads\Results\plot.png", 'rb'), caption=message_text, parse_mode="HTML"))
 
   # open the image file in binary mode
-  #with open(r"C:\Users\python_miles\Downloads\Results\plot.png", "rb") as f:
+  with open(r"C:\Users\stefan.mueller\Downloads\Results\plot.png", "rb") as f:
     # send the image to the test results chat
-    #bot.send_photo(chat_id="-123456789", photo=f, caption=f"Total profit for the last {days_back} days: {total_profit} USD ??")
-    
-  message_text = "Total profit for the last {days_back} days: <b>{total_profit} USD</b> 💰 (Table may be incomplete)".format(days_back=days_back, total_profit=total_profit)
-   
-  asyncio.run(bot.send_photo(-123456789, photo=open(r"C:\Users\python_miles\Downloads\Results\plot.png", 'rb'), caption=message_text, parse_mode="HTML"))
-    
-  #bot.send_photo(-123456789, 'https://www.computerhope.com/jargon/r/random-dice.jpg')
+    bot.send_photo(chat_id="-123456789", photo=f, caption=f"Total profit for the last {days_back} days: {total_profit} USD 💰 (Table may be incomplete)")
   
     # send the image to the real results channel
-    #bot.send_photo(chat_id="-123456789", photo=f, caption=f"Total profit for the last {days_back} days: {total_profit} USD ??")
+    #bot.send_photo(chat_id="-123456789", photo=f, caption=f"Total profit for the last {days_back} days: {total_profit} USD 💰")
 
   # shut down the MetaTrader 5 terminal
   mt5.shutdown()
@@ -118,3 +118,4 @@ except Exception as e:
   print("An error occurred:", e)
   # shut down the MetaTrader 5 terminal
   mt5.shutdown()
+
